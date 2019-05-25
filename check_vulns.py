@@ -17,8 +17,8 @@
 
 
 import subprocess
-import configparser
 
+from configparser import ConfigParser as confparsing
 from argparse import ArgumentParser as argsparsing
 from json import load as jsonload
 from urllib import request as urlrequest
@@ -180,7 +180,7 @@ def _match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args):
 def main(argv):
     ''' Main program here '''
 
-    config = configparser.ConfigParser()
+    config = confparsing()
     config.read(config_filename)
 
     parser = argsparsing(description=r"Script to find vulns that are known, but not yet patched. This will give you an overview of which packages are part of the attack surface.")
