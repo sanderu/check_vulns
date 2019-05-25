@@ -16,8 +16,7 @@
 # list installed packages with vulns with status='open' per system
 
 
-import subprocess
-
+from subprocess import getoutput as run_shell_cmd
 from configparser import ConfigParser as confparsing
 from argparse import ArgumentParser as argsparsing
 from json import load as jsonload
@@ -63,12 +62,12 @@ def _get_os_packages_installed(host):
 
     if host == 'localhost':
         # localhost aka same machine this script is running on:
-        res = subprocess.getoutput("/usr/bin/dpkg-query -W -f='${binary:Package}\t${Version}\n'")
-        os_version = subprocess.getoutput("/bin/cat /etc/os-release | /bin/grep 'VERSION='")
+        res = run_shell_cmd("/usr/bin/dpkg-query -W -f='${binary:Package}\t${Version}\n'")
+        os_version = run_shell_cmd("/bin/cat /etc/os-release | /bin/grep 'VERSION='")
     else:
         # remote host aka other machine than where this script is running:
-        res = subprocess.getoutput("ssh {} ".format(host)+'"'+"/usr/bin/dpkg-query -W -f='\${binary:Package}\\t\${Version}\\n'"+'"')
-        os_version = subprocess.getoutput("ssh {} ".format(host)+'"'+"/bin/cat /etc/os-release | /bin/grep 'VERSION='"+'"')
+        res = run_shell_cmd("ssh {} ".format(host)+'"'+"/usr/bin/dpkg-query -W -f='\${binary:Package}\\t\${Version}\\n'"+'"')
+        os_version = run_shell_cmd("ssh {} ".format(host)+'"'+"/bin/cat /etc/os-release | /bin/grep 'VERSION='"+'"')
         try:
             check_ssh_result = research('(^ssh: Could not resolve hostname).*$', res)
             if check_ssh_result.group(1):
