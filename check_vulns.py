@@ -18,8 +18,8 @@
 
 import subprocess
 import configparser
-import argparse
 
+from argparse import ArgumentParser as argsparsing
 from json import load as jsonload
 from urllib import request as urlrequest
 from os import path as ospath
@@ -183,7 +183,7 @@ def main(argv):
     config = configparser.ConfigParser()
     config.read(config_filename)
 
-    parser = argparse.ArgumentParser(description=r"Script to find vulns that are known, but not yet patched. This will give you an overview of which packages are part of the attack surface.")
+    parser = argsparsing(description=r"Script to find vulns that are known, but not yet patched. This will give you an overview of which packages are part of the attack surface.")
     parser.add_argument('-c', type=str, default='on', choices=['on', 'off'], help='Show CVE/DSA identification number of vulnerability.')
     parser.add_argument('-d', type=str, default='off', choices=['on', 'off'], help='Show description of vulnerability.')
     parser.add_argument('-e', type=str, default='all', choices=['none', 'local', 'remote', 'all'], help='Show local and/or remote exploitable vulns.')
