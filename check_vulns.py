@@ -24,8 +24,7 @@ from json import load as jsonload
 from urllib import request as urlrequest
 from os import path as ospath
 from re import search as research
-from sys import argv as sysargv, exit as sysexit
-from getopt import getopt as getoptions
+from sys import exit as sysexit
 
 vulnpkgs = ''
 config_filename = 'check_vulns.conf'
