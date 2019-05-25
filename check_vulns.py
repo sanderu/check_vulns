@@ -2,19 +2,12 @@
 
 # Download all known vulns from:
 #   https://security-tracker.debian.org/tracker/data/json
+# if not already downloaded.
 #
 # Get list of installed packages on the system (or from remote systems)
 #
-# Check if installed packages are up to date (same version as fixed version for distro)
-# Check if there is a known vulnerability present
-#
-# Flag if remote vulnerable!!!
-#
-# Make possibility to give list of:
-# packages with known issues depending on severity or all
-# packages installed with known issues depending on severity or all
-# list installed packages with vulns with status='open' per system
-
+# Check if there is a known vulnerability present in installed packages
+# and alert
 
 from subprocess import getoutput as run_shell_cmd
 from configparser import ConfigParser as confparsing
