@@ -22,7 +22,7 @@ vulnpkgs = ''
 config_filename = 'check_vulns.conf'
 
 
-def my_get_debian_tracker_file(local_file):
+def get_debian_tracker_file(local_file):
     ''' Get the json file from https://security-tracker.debian.org/tracker/data/json '''
 
     URL='https://security-tracker.debian.org/tracker/data/json'
@@ -36,19 +36,19 @@ def my_get_debian_tracker_file(local_file):
     return
 
 
-def my_read_debian_tracker_file(local_file):
+def read_debian_tracker_file(local_file):
     ''' Populate vulnpkgs variable with tracker file contents '''
 
     with open(local_file, "r") as jsonfile:
         return jsonload(jsonfile)
 
 
-def my_usage():
+def usage():
     ''' Print usage in case of cmdline fail '''
     pass
 
 
-def my_get_os_packages_installed(host):
+def get_os_packages_installed(host):
     ''' Get package names and versions from installed packages on local or remote system '''
 
     pkgdict = {}
@@ -83,7 +83,7 @@ def my_get_os_packages_installed(host):
     return os_release, pkgdict
 
 
-def my_match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args):
+def match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args):
     ''' Match the OS packages against known vulns '''
 
     sec_os_release = os_release + '-security'
@@ -187,14 +187,14 @@ def main(argv):
     local_filename = config['config']['temp_file']
     list_of_hosts = config['config']['hosts'].split(' ')
 
-    my_get_debian_tracker_file(local_filename)
-    vulnpkgs = my_read_debian_tracker_file(local_filename)
+    get_debian_tracker_file(local_filename)
+    vulnpkgs = read_debian_tracker_file(local_filename)
 
     # Check host by host for known vulns against the different packages
     # installed on the different hosts.
     for host_by_host in list_of_hosts:
-        os_release, pkgdict = my_get_os_packages_installed(host_by_host)
-        my_match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args)
+        os_release, pkgdict = get_os_packages_installed(host_by_host)
+        match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args)
 
 
 if __name__ == '__main__':
