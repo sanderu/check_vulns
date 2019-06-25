@@ -43,11 +43,6 @@ def read_debian_tracker_file(local_file):
         return jsonload(jsonfile)
 
 
-def usage():
-    ''' Print usage in case of cmdline fail '''
-    pass
-
-
 def get_os_packages_installed(host):
     ''' Get package names and versions from installed packages on local or remote system '''
 
