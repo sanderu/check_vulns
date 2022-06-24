@@ -64,7 +64,7 @@ def get_os_packages_installed(host):
         except:
             pass
 
-    print('Host: {}'.format(host))
+    print('\n================\nHost: {}\n================'.format(host))
 
     rel = research('\((\w+)\)"', os_version)
     os_release = rel.group(1)
@@ -155,13 +155,12 @@ def match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args):
                 # Add to output if Description argument is on (on, off)
                 if args.d == 'on':
                     outstring += '- Description: {} '.format(vuln_description)
-
                 print(outstring)
 
-                print('Installed: {} - Installed version: {}\n'.format(vuln_pkg_name, pkgdict[vuln_pkg_name]))
-                if pkgdict[vuln_pkg_name] != vuln_repository:
-                    print('--> You need to watch for upgrades for: {} <--\n'.format(vuln_pkg_name))
-
+                # Add to notice about keeping an eye out for updates to vulnerable package 
+                if args.o == 'on':
+                    if pkgdict[vuln_pkg_name] != vuln_repository:
+                        print('--> You need to watch for upgrades for: {} <--\n'.format(vuln_pkg_name))
 
 
 def main(argv):
@@ -176,6 +175,7 @@ def main(argv):
     parser.add_argument('-e', type=str, default='all', choices=['none', 'local', 'remote', 'all'], help='Show local and/or remote exploitable vulns.')
     parser.add_argument('-s', type=str, default='all', choices=['none', 'open', 'resolved', 'all'], help='Show open and/or resolved vulns.')
     parser.add_argument('-u', type=str, default='on', choices=['on', 'off'], help='Show the urgency.')
+    parser.add_argument('-o', type=str, default='on', choices=['on', 'off'], help='Show only packages if there is a difference in version - not taking status into account.')
     args = parser.parse_args()
 
     # Get variables from config-file
