@@ -155,13 +155,16 @@ def match_os_vs_known_vulns(vulnpkgs, pkgdict, os_release, args):
                 # Add to output if Description argument is on (on, off)
                 if args.d == 'on':
                     outstring += '- Description: {} '.format(vuln_description)
-                print(outstring)
 
-                # Add to notice about keeping an eye out for updates to vulnerable package 
+                # Add to notice about keeping an eye out for updates to vulnerable package
                 if args.o == 'on':
                     if pkgdict[vuln_pkg_name] != vuln_repository:
-                        print('--> You need to watch for upgrades for: {} <--\n'.format(vuln_pkg_name))
+                        outstring += '\n--> You need to watch for upgrades for: {} <--\n'.format(vuln_pkg_name)
+                    else:
+                        outstring=''
 
+                if outstring:
+                    print(outstring)
 
 def main(argv):
     ''' Main program here '''
