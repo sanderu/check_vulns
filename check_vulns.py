@@ -54,7 +54,7 @@ def get_os_packages_installed(host):
         os_version = run_shell_cmd("/bin/cat /etc/os-release | /bin/grep 'VERSION='")
     else:
         # remote host aka other machine than where this script is running:
-        res = run_shell_cmd("ssh {} ".format(host)+'"'+"/usr/bin/dpkg-query -W -f='\${binary:Package}\\t\${Version}\\n'"+'"')
+        res = run_shell_cmd("ssh {} ".format(host)+'"'+"/usr/bin/dpkg-query -W"+'"')
         os_version = run_shell_cmd("ssh {} ".format(host)+'"'+"/bin/cat /etc/os-release | /bin/grep 'VERSION='"+'"')
         try:
             check_ssh_result = research('(^ssh: Could not resolve hostname).*$', res)
@@ -66,11 +66,11 @@ def get_os_packages_installed(host):
 
     print('\n================\nHost: {}\n================'.format(host))
 
-    rel = research('\((\w+)\)"', os_version)
+    rel = research(r'\((\w+)\)"', os_version)
     os_release = rel.group(1)
 
     for elem in res.split('\n'):
-        out = research('^(\S+)\t(\S+)$', elem)
+        out = research(r'^(\S+)\t(\S+)$', elem)
         pkg = out.group(1)
         ver = out.group(2)
         pkgdict[pkg] = ver
