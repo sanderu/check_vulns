@@ -82,7 +82,7 @@ def get_os_packages_installed(host):
 
     print("\n================\nHost: {}\n================".format(host))
 
-    rel = research('\((\w+)\)"', os_version)
+    rel = research(r'\((\w+)\)"', os_version)
     os_release = rel.group(1)
 
     for elem in res.split("\n"):
